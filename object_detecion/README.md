@@ -43,17 +43,17 @@ pip3 install 'open3d>=0.17'
 sudo apt-get install ros-foxy-sensor-msgs-py
 
 <사용방법>
-1번째 터미널.
-cd <workspace_name>/object_detection
-soruce install/local_setup.bash
-ros2 launch object_detection sim.launch.py
+1번째 터미널.\
+cd <workspace_name>/object_detection\
+soruce install/local_setup.bash\
+ros2 launch object_detection sim.launch.py\
 
-2번째 터미널
-cd <workspace_name>/object_detection
-source install/loacl_setup.bash
-ros2 run object_detection point_cloud
+2번째 터미널\
+cd <workspace_name>/object_detection\
+source install/loacl_setup.bash\
+ros2 run object_detection point_cloud\
 
-3번째 터미널
-cd <workspace_name>/object_detection
-source install/local_setup.bash
-ros2 run object_detection offboard_control
+3번째 터미널\
+cd <workspace_name>/object_detection\
+source install/local_setup.bash\
+ros2 run object_detection offboard_control\
