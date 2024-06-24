@@ -25,12 +25,12 @@ ERROR: jupyterlab-server 2.27.1 has requirement packaging>=21.3, but you'll have
 
 이런 오류들이 발생시 해결법은 간단하다.
 저기서 요구하는 모든 패키지들을 업그레이드 하면 된다.
-pip install --upgrade setuptools
-pip install 'setuptools>=60.2.0'
-pip install 'zipp>=3.1.0'
-pip install 'jinja2>=3.0.3'
-pip install 'packaging>=22.0'
-
+pip install --upgrade setuptools\
+pip install 'setuptools>=60.2.0'\
+pip install 'zipp>=3.1.0'\
+pip install 'jinja2>=3.0.3'\
+pip install 'packaging>=22.0'\
+\
 여기까지 완료했으면 
 python3 -c "import open3d as o3d; print(o3d.__version__)"
 open3d 버젼 확인
