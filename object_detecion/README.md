@@ -21,7 +21,7 @@ ERROR: nbconvert 7.16.4 has requirement jinja2>=3.0, but you'll have jinja2 2.10
 ERROR: jupyter-server 2.14.0 has requirement jinja2>=3.0.3, but you'll have jinja2 2.10.1 which is incompatible.\
 ERROR: jupyter-server 2.14.0 has requirement packaging>=22.0, but you'll have packaging 20.3 which is incompatible.\
 ERROR: jupyterlab-server 2.27.1 has requirement jinja2>=3.0.3, but you'll have jinja2 2.10.1 which is incompatible.\
-ERROR: jupyterlab-server 2.27.1 has requirement packaging>=21.3, but you'll have packaging 20.3 which is incompatible.\
+ERROR: jupyterlab-server 2.27.1 has requirement packaging>=21.3, but you'll have packaging 20.3 which is incompatible.
 
 이런 오류들이 발생시 해결법은 간단하다.
 저기서 요구하는 모든 패키지들을 업그레이드 하면 된다.
@@ -46,14 +46,14 @@ sudo apt-get install ros-foxy-sensor-msgs-py
 1번째 터미널.\
 cd <workspace_name>/object_detection\
 soruce install/local_setup.bash\
-ros2 launch object_detection sim.launch.py\
+ros2 launch object_detection sim.launch.py
 
 2번째 터미널\
 cd <workspace_name>/object_detection\
 source install/loacl_setup.bash\
-ros2 run object_detection point_cloud\
+ros2 run object_detection point_cloud
 
 3번째 터미널\
 cd <workspace_name>/object_detection\
 source install/local_setup.bash\
-ros2 run object_detection offboard_control\
+ros2 run object_detection offboard_control
