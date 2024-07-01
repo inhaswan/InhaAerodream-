@@ -1,9 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 ############################################################################
 #
 # point cloud data 전처리 및 클러스터링 진행 노드
 # point cloud data를 토픽으로 받아온 후
 # 전처리 및 클러스터링 해서 그걸 다시 pub 하는 노드
+# 전처리: 다운샘플링, 노이즈 제거(아웃라이어 제거), 평면 제거(RANSAC)
+# 클러스터링: dbscan 알고리즘 사용 + bounding box
+# 선택 사항(1): 클러스터에 색깔을 입힐 수 있음, line 95~98
+# 선택 사항(2): bounding box의 중심점, 체적, 코너점들 추출 가능, line 100 ~ 117
 #
 ############################################################################
 
@@ -29,10 +33,11 @@ class PointCloudProcessing(Node):
         # self.mapping_publisher = self.create_publisher()
         # mapping을 하기 위해서 클러스터들과 bounding box 정보를 보내주는 publisher
 
-        #self.vis = o3d.visualization.Visualizer()
-        #self.vis.create_window(window_name="Open3D")
+        self.vis = o3d.visualization.Visualizer()
+        self.vis.create_window(window_name="Open3D")
+        
         self.pcd = o3d.geometry.PointCloud()
-
+        
     def __enter__(self):
         return self
 
@@ -68,7 +73,7 @@ class PointCloudProcessing(Node):
         self.pcd.points = o3d.utility.Vector3dVector(np_points)
         # point cloud 데이터 입력
 
-        self.pcd = self.pcd.voxel_down_sample(voxel_size = 0.3)
+        self.pcd = self.pcd.voxel_down_sample(voxel_size = 0.25)
         # 최적의 voxel_size 찾을 필요 있음
 
         self.pcd, inlier = self.pcd.remove_statistical_outlier(nb_neighbors=30, std_ratio=2.0)
@@ -81,15 +86,20 @@ class PointCloudProcessing(Node):
 
         labels = np.array(self.pcd.cluster_dbscan(eps=1.0, min_points=15, print_progress=True))
         # 최적의 클러스터링 파라미터 찾아야함
+
+        if labels.size == 0:
+            self.get_logger().warn("No clusters found. Skipping this callback.")
+            return
+
         max_label = labels.max()
         # colors = plt.get_cmap("tab20")(labels/(max_label+1))
-        #colors[labels<0] = 0
+        # colors[labels<0] = 0
         # pcd.colors = o3d.utility.Vector3dVector(colors[:,:3])
         # 클러스터에 색 입히는 코드들
 
         bounding_boxes = []
         clusters_center_points = []
-        clusters_volume =[]
+        clusters_volume = []
 
         for i in range(max_label+1):
             cluster_indices = np.where(labels == i)[0]
@@ -100,19 +110,21 @@ class PointCloudProcessing(Node):
 
             cluster_center = bounding_box.get_center()
             cluster_volume = bounding_box.volume()
-
             clusters_center_points.append(cluster_center)
             clusters_volume.append(cluster_volume)
+
+            corners = np.asarray(bounding_box.get_box_points())
+            print(corners)
         # bounding box 연산
         # center_point, volume 산출
 
         # 시각화 코드
-        #self.vis.clear_geometries()
-        #self.vis.add_geometry(self.pcd)
-        #for bounding_box in bounding_boxes:
-            #self.vis.add_geometry(bounding_box)
-        #self.vis.poll_events()
-        #self.vis.update_renderer()
+        self.vis.clear_geometries()
+        self.vis.add_geometry(self.pcd)
+        for bounding_box in bounding_boxes:
+            self.vis.add_geometry(bounding_box)
+        self.vis.poll_events()
+        self.vis.update_renderer()
 
 
 def main(args=None):
@@ -130,4 +142,3 @@ def main(args=None):
 
 if __name__ == "__main__":
     main()
-
