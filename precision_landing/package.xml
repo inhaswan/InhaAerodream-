@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>precision_landing</name>
+  <version>0.0.0</version>
+  <description>The precision_landing package</description>
+
+  <maintainer email="you@example.com">Your Name</maintainer>
+
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <build_depend>rclpy</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>opencv-python</build_depend>
+  <build_depend>px4_msgs</build_depend>
+ 
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>opencv-python</exec_depend>
+  <exec_depend>px4_msgs</exec_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
