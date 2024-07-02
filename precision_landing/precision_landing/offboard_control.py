@@ -39,6 +39,7 @@ class OffboardControl(Node):
         self.vector_y = 0.0
         self.tolerance = 0.1
         self.new_vector_subscribed = False
+        self.landing_flag = False
         self.timer = self.create_timer(0.1, self.timer_callback)
 
     def vehicle_local_position_callback(self, vehicle_local_position):
@@ -119,15 +120,14 @@ class OffboardControl(Node):
     def timer_callback(self) -> None:
         self.offboard_setpoint_counter += 1
         self.publish_offboard_control_heartbeat_signal()
-        self.vector_callback_counter_2 = self.vector_callback_counter
 
         if self.offboard_setpoint_counter == 10:
-            landing_flag = False
+            self.landing_flag = False
             self.engage_offboard_mode()
             self.arm()
         
         elif self.offboard_setpoint_counter == 50:
-            self.publish_position_setpoint(0, 0, self.takeoff_height)
+            self.publish_position_setpoint(0.0, 0.0, self.takeoff_height)
         
         elif abs(self.vehicle_local_position.z - self.takeoff_height) <= self.tolerance:
             self.publish_position_setpoint(1, 1, self.takeoff_height)
@@ -139,12 +139,12 @@ class OffboardControl(Node):
             self.landing_flag = True
             
         # subscrined vector -> publish vel_cmd    
-        elif landing_flag == True and self.new_vector_subscribed:
+        elif self.landing_flag == True and self.new_vector_subscribed == True:
             self.publish_velocity_setpoint(self.vector_x, self.vector_y, 0.1)
             self.new_vector_subscribed = False
         
         # less than 0.2m -> land
-        elif self.vehicle_local_position.z >= -0.2:                   
+        elif self.landing_flag == True and self.vehicle_local_position.z >= -0.2:                   
             self.disarm()
             exit(0)
 
