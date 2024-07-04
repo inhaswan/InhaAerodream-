@@ -122,7 +122,7 @@ class OffboardControl(Node):
     def timer_callback(self) -> None:
         self.offboard_setpoint_counter += 1
         self.publish_offboard_control_heartbeat_signal()
-
+        
         if self.offboard_setpoint_counter == 10:
             self.engage_offboard_mode()
             self.arm()
@@ -145,7 +145,7 @@ class OffboardControl(Node):
             if self.vector < 100:
                 self.publish_velocity_setpoint(self.vector_x, self.vector_y, 0.1)
             else:
-                self.publish_velocity_setpoint(self.vector, self.vector_y, 0.0)
+                self.publish_velocity_setpoint(self.vector_x, self.vector_y, 0.0)
             self.new_vector_subscribed = False
         
         # less than 0.2m -> land (but there is another disarm command)
