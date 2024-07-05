@@ -95,7 +95,9 @@ class OffboardControl(Node):
 
     def publish_velocity_setpoint(self, x: float, y: float, z: float):
         msg = TrajectorySetpoint()
+        msg.position = [float('nan'),float('nan'),float('nan')]
         msg.velocity = [x, y, z]
+        msg.acceleration = [float('nan'),float('nan'),float('nan')]
         msg.yaw = 1.57079  # (90 degree)
         msg.timestamp = int(self.get_clock().now().nanoseconds / 1000)
         self.trajectory_setpoint_publisher.publish(msg)
@@ -131,7 +133,7 @@ class OffboardControl(Node):
             self.publish_position_setpoint(0.0, 0.0, self.takeoff_height)
         
         if abs(self.vehicle_local_position.z - self.takeoff_height) <= self.tolerance:
-            self.publish_position_setpoint(1.0, 1.0, self.takeoff_height)
+             self.publish_position_setpoint(1.0, 1.0, self.takeoff_height)
 
         # arrived land point -> landing flag ON
         if (abs(self.vehicle_local_position.x - 1) <= self.tolerance and
@@ -143,15 +145,15 @@ class OffboardControl(Node):
         if self.landing_flag == True and self.new_vector_subscribed:
             self.vector = np.sqrt(self.vector_x**2 + self.vector_y**2)
             if self.vector < 100:
-                self.publish_velocity_setpoint(self.vector_x, self.vector_y, 0.1)
+                self.publish_velocity_setpoint(self.vector_x/100, self.vector_y/100, 0.1)
             else:
-                self.publish_velocity_setpoint(self.vector_x, self.vector_y, 0.0)
+                self.publish_velocity_setpoint(self.vector_x/100, self.vector_y/100, 0.0)
             self.new_vector_subscribed = False
         
-        # less than 0.2m -> land (but there is another disarm command)
-        if self.vehicle_local_position.z <= -0.2:
-            self.disarm()
-            exit(0)
+        #less than 0.2m -> land (but there is another disarm command)
+        # if self.vehicle_local_position.z <= -0.2:
+        #     self.disarm()
+        #     exit(0)
 
 
 
