@@ -88,6 +88,8 @@ class OffboardControl(Node):
     def publish_position_setpoint(self, x: float, y: float, z: float):
         msg = TrajectorySetpoint()
         msg.position = [x, y, z]
+        msg.velocity = [float('nan'),float('nan'),float('nan')]
+        msg.acceleration =  [float('nan'),float('nan'),float('nan')]
         msg.yaw = 1.57079  # (90 degree)
         msg.timestamp = int(self.get_clock().now().nanoseconds / 1000)
         self.trajectory_setpoint_publisher.publish(msg)
