@@ -7,3 +7,4 @@
 - 2024.07.04 22시 a8minicontrol 패키지 추가
 - 2024.07.06 16시 precision_landing에 마커 전환기능 추가(코드 가독성 떨어지므로 차후 함수로 수정예정)
 - 2024.07.10 16시 docker_img 도커 컨테이너 이미지 빌드파일(ubuntu:20.04 / ROS2:foxy / PX4-Autopilot:1.14.3 / px4_msgs:1.14 / DDS:2.4.2)
+- 2024.07.16 18시 object_detection 패키지 삭제하고 새로 올림
