@@ -7,8 +7,8 @@ docker run -it \
    -v /tmp/.X11-unix:/tmp/.X11-unix \
    --device=/dev/dri:/dev/dri \
    --privileged \
-   --name rohang \
-   seungwon bash
+   --name seungwon \
+   rohang bash
 
 
 
@@ -63,5 +63,3 @@ sudo apt install ros-foxy-desktop python3-argcomplete
 sudo apt install ros-foxy-ros-base python3-argcomplete
 sudo apt install ros-dev-tools
 ~/.bashrc에 source /opt/ros/foxy/setup.bash 넣어주기
-
-
