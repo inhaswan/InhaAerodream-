@@ -1,6 +1,7 @@
 # 로봇항공기대회/인하대학교
  화이팅 https://drive.google.com/drive/folders/1MNo6Mw9i-Qwhi_eauEnDAHyQ5CYtLyDc 
- 
+
+- 2024.08.27 18시 offboard_control.py 추가. 이륙, 천이, Mission 생성 및 Mission 실행, 역천이, 착륙 구현 -
 - 2024.06.24 기준 object_detection 패키지 추가
 - 2024.07.02 03시 precision_landing 패키지 추가
 - 2024.07.04 02시 precision_landing에 2중 마커기능 추가
