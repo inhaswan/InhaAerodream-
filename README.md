@@ -12,3 +12,4 @@
 - 2024.07.19 01시 docker_img 도커 컨테이너 이미지 빌드파일 최종본(빌드 후 필요한 추가작업을 주석처리함)
 - 2024.08.27 18시 offboard_control.py 추가. 이륙, 천이, Mission 생성 및 Mission 실행, 역천이, 착륙 구현 -
 - 2024.09.02 3시 30분 offboard_control.py Pturn 자동화, 이륙 후 Transition 전 Yaw 조정 구현
+- 22024.11.09 7시 40분 object tracking과 카메라 제어 결합된 siyi_tracking 업로드
